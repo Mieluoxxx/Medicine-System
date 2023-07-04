@@ -1,0 +1,43 @@
+{% extends 'function.html' %}
+{% block title %}新增客户{% endblock %}
+
+{% block form %}
+    <form style="width:400px; margin: 100px auto" method="POST">
+        <div class="mb-3">
+            <label for="customer_name"
+                   class="form-label">姓名</label>
+            <input type="text"
+                   class="form-control"
+                   id="customer_name"
+                   name="customer_name"
+                   value="{% block name %}{% endblock %}">
+        </div>
+        <div class="mb-3">
+            <label for="customer_sex"
+                   class="form-label">性别</label>
+            <input type="text" class="form-control"
+                   id="customer_sex"
+                   name="customer_sex"
+                   value="{% block sex %}{% endblock %}">
+        </div>
+        <div class="mb-3">
+            <label for="customer_phone"
+                   class="form-label">联系方式</label>
+            <input type="text"
+                   class="form-control"
+                   id="customer_phone"
+                   name="customer_phone"
+                   value="{% block phone %}{% endblock %}">
+        </div>
+        <div class="mb-3">
+            <label for="customer_address"
+                   class="form-label">地址</label>
+            <input type="text"
+                   class="form-control"
+                   id="customer_address"
+                   name="customer_address"
+                   value="{% block address %}{% endblock %}">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+{% endblock %}

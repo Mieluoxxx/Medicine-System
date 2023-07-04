@@ -1,0 +1,43 @@
+{% extends 'function.html' %}
+{% block title %}新增订单{% endblock %}
+
+{% block form %}
+    <form style="width:400px; margin: 10px auto" method="POST">
+        <div class="mb-3">
+            <label for="order_name"
+                   class="form-label">订单名称</label>
+            <input type="text"
+                   class="form-control"
+                   id="order_name"
+                   name="order_name"
+                   value="{% block name %}xxx的订单{% endblock %}">
+        </div>
+        <div class="mb-3">
+            <label for="order_c_id"
+                   class="form-label">客户ID</label>
+            <input type="text" class="form-control"
+                   id="order_c_id"
+                   name="order_c_id"
+                   value="{% block c_id %}{% endblock %}">
+        </div>
+        <div class="mb-3">
+            <label for="order_m_id"
+                   class="form-label">药物批准文号</label>
+            <input type="text"
+                   class="form-control"
+                   id="order_m_id"
+                   name="order_m_id"
+                   value="{% block m_id %}{% endblock %}">
+        </div>
+        <div class="mb-3">
+            <label for="order_quantity"
+                   class="form-label">购买数量</label>
+            <input type="text"
+                   class="form-control"
+                   id="order_quantity"
+                   name="order_quantity"
+                   value="{% block quantity %}{% endblock %}">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+{% endblock %}

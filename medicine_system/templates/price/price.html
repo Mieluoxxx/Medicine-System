@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}
+    <title>价格监控</title>
+{% endblock %}
+{% block bg %}bg8.PNG{% endblock %}
+{% block table %}
+    <input class="form-control" id="myInput" type="text" placeholder="Search.." style="width:40%; margin:10px auto">
+    <table class="table" style="width: 700px; margin: 10px auto; color: black">
+        <thead>
+        <tr>
+            <th scope="col">时间</th>
+            <th scope="col">药物名称</th>
+            <th scope="col">批准文号</th>
+            <th scope="col">成本</th>
+            <th scope="col">售价</th>
+        </tr>
+        </thead>
+        <tbody id="myTable">
+        {% for price in prices %}
+            <tr>
+                <td>{{ price.date }}</td>
+                <td>{{ price.name }}</td>
+                <td>{{ price.m_id }}</td>
+                <td>{{ price.cost }}</td>
+                <td>{{ price.price }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block add_button %}
+{% endblock %}

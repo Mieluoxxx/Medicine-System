@@ -1,0 +1,51 @@
+{% extends 'function.html' %}
+{% block title %}修改药物{% endblock %}
+
+{% block form %}
+    <form style="width:400px; margin: 100px auto" method="POST">
+        <div class="mb-3">
+            <label for="medicine_id"
+                   class="form-label">批准文号</label>
+            <input type="text"
+                   class="form-control"
+                   id="medicine_id"
+                   name="medicine_id"
+                   value="{{ medicine.id }}">
+        </div>
+        <div class="mb-3">
+            <label for="medicine_name"
+                   class="form-label">药物名称</label>
+            <input type="text" class="form-control"
+                   id="medicine_name"
+                   name="medicine_name"
+                   value="{{ medicine.name }}">
+        </div>
+        <div class="mb-3">
+            <label for="supplier_id"
+                   class="form-label">供应商ID</label>
+            <input type="text" class="form-control"
+                   id="supplier_id"
+                   name="supplier_id"
+                   value="{{ medicine.s_id }}">
+        </div>
+        <div class="mb-3">
+            <label for="price"
+                   class="form-label">售价</label>
+            <input type="text"
+                   class="form-control"
+                   id="price"
+                   name="price"
+                   value="{{ mp.price }}">
+        </div>
+        <div class="mb-3">
+            <label for="medicine_description"
+                   class="form-label">药物描述</label>
+            <input type="text"
+                   class="form-control"
+                   id="medicine_description"
+                   name="medicine_description"
+                   value="{{ medicine.description }}">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+{% endblock %}

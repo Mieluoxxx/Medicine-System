@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+{% block head %}
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+        <script src="/static/js/jquery-3.7.0.min.js"></script>
+        <script src="/static/js/bootstrap.min.js"></script>
+        <script src="/static/js/echarts.js"></script>
+        {% block title %}
+            <title>药物进销管理系统</title>
+        {% endblock %}
+        <link rel="stylesheet" href="/static/css/bootstrap.css">
+    </head>
+{% endblock %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light opacity-75">
+    <div class="container-fluid">
+        {% block index %}
+            <a class="navbar-brand" href="/index">真真夜夜的炼金台</a>
+        {% endblock %}
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        {% block nav %}
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/medicine">药物管理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/customer">客户管理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/supplier">供应商管理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/orderlist">订单管理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/purchase">采购管理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/price">价格监控</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/warning">风险操作</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/data">财务报表</a>
+                    </li>
+                </ul>
+            </div>
+        {% endblock %}
+    </div>
+</nav>
+<body class="navbar-custom">
+{% block table %}
+{% endblock %}
+{% block add_button %}
+    <div class="container" style="width: 30%;">
+        <div class="row">
+            <div class="col">
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <button class="btn btn-primary btn-block" type="button"
+                            onclick="window.location.href={% block add %}'/add'{% endblock %}">
+                        {% block add_title %} 新增 {% endblock %}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% block body %}
+    {% endblock %}
+{% endblock %}
+
+</body>
+</html>
+{% block style %}
+    <style>
+        .navbar-custom {
+            background-image: url("/static/img/{% block bg %}bg.png{% endblock %}");
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+    </style>
+{% endblock %}
+{% block script %}
+{% endblock %}
+<script>
+    $(document).ready(function () {
+        $("#myInput").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>

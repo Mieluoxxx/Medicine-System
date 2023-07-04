@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "medicine-system"
+version = "0.1.0"
+description = ""
+authors = ["moguw <weiyiding0@gmail.com>"]
+readme = "README.md"
+packages = [{include = "medicine_system"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+flask = "^2.3.2"
+pymysql = "^1.1.0"
+sqlalchemy = "^2.0.17"
+flask-sqlalchemy = "^3.0.5"
+pyecharts = "^2.0.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

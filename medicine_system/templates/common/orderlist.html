@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% block title %}
+    <title>订单管理</title>
+{% endblock %}
+{% block index %}
+    <a class="navbar-brand" href="/common/index">真真夜夜的炼金台</a>
+{% endblock %}
+{% block nav %}
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/common/medicine">药物管理</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/common/orderlist">订单管理</a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}
+{% block table %}
+    <input class="form-control" id="myInput" type="text" placeholder="Search.." style="width:40%; margin:10px auto">
+    <table class="table" style="width: 600px; margin: 10px auto">
+        <thead>
+        <tr>
+            <th scope="col">订单ID</th>
+            <th scope="col">订单名称</th>
+            <th scope="col">订单时间</th>
+            <th scope="col">订单类型</th>
+            <th scope="col">功能</th>
+        </tr>
+        </thead>
+        <tbody id="myTable">
+        {% for order in Orderlists %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.name }}</td>
+                <td>{{ order.date }}</td>
+                <td>{{ order.type }}</td>
+                <td>
+                    <a href="#" onclick="Detail({{ order.id }})">详细</a>{% if order.type != "退货" %}
+                    <a href="/common/orderlist/delete?id={{ order.id }}"
+                       onclick="confirmDelete({{ order.id }})">退货</a>
+                    </td>{% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block add %}'/common/orderlist/add'{% endblock %}
+{% block add_title %} 新增订单 {% endblock %}
+
+{% block script %}
+    <script>
+        function Detail(id) {
+            fetch(`/orderlist/detail?id=${id}&t={Date.now()}`)
+                .then(response => response.json())
+                .then(data => {
+                    const order = data[0];
+                    const medicine = data[1];
+                    const customer = data[2];
+                    const mp = data[3];
+                    if (order.error) {
+                        // 如果出错，弹出错误提示
+                        alert(order.error);
+                    } else {
+                        let sum = (mp.price * order.quantity).toFixed(2);
+                        // 创建模态框的 HTML 结构
+                        const modalHtml = `
+                    <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="detailModalLabel">订购单详情</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <h5>订购单详情</h5>
+                            <p>订单编号：${order.id}</p>
+                            <p>创建时间: ${new Date(order.date).toLocaleDateString()}</p>
+                            <p>顾客姓名：${customer.name}</p>
+                            <p>药物名称: ${medicine.name}</p>
+                            <p>药物数量: ${order.quantity}</p>
+                            <p>总金额: ${sum}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                `;
+
+                        // 将模态框添加到页面中
+                        document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+                        // 获取模态框元素
+                        const modal = document.querySelector('#detailModal');
+
+                        // 监听模态框关闭事件，刷新页面
+                        modal.addEventListener('hidden.bs.modal', function () {
+                            location.reload();
+                        });
+
+                        // 显示模态框
+                        const modalInstance = new bootstrap.Modal(modal);
+                        modalInstance.show();
+                    }
+                })
+                .catch(error => {
+                    // 如果出错，弹出错误提示
+                    alert(error.message);
+                });
+        }
+
+
+        function confirmDelete(id) {
+            if (confirm("您确定要退货吗？")) {
+                window.location.href = "/common/orderlist/delete?id=" + id;
+            }
+        }
+    </script>
+{% endblock %}

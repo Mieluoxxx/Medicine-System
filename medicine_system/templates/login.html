@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="/static/css/login.css">
+</head>
+<body>
+<form method="post">
+    <div class="box">
+        <h2>Login</h2>
+        <div class="input-box">
+            <label>账号</label>
+            <label for="username"></label><input type="text" id="username" name="username" required>
+        </div>
+        <div class="input-box">
+            <label>密码</label>
+            <label for="password"></label><input type="password" id="password" name="password" required>
+        </div>
+        <div class="btn-box">
+            <a href="#">忘记密码?</a>
+            <div style="display: flex; justify-content: center;">
+                <button id="loginBtn" type="submit" style="width: 100px; margin-left: 80px;">登录</button>
+            </div>
+        </div>
+    </div>
+</form>
+</body>
+</html>

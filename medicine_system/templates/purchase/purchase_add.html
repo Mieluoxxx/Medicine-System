@@ -1,0 +1,44 @@
+{% extends 'function.html' %}
+{% block title %}新增采购单{% endblock %}
+
+{% block form %}
+    <form style="width:400px; margin: 10px auto" method="POST">
+        <div class="mb-3">
+            <label for="purchase_name"
+                   class="form-label">采购单名称</label>
+            <input type="text"
+                   class="form-control"
+                   id="purchase_name"
+                   name="purchase_name"
+                   value="{% block name %}xxx的采购单{% endblock %}">
+        </div>
+        <div class="mb-3">
+            <label for="medicine_id"
+                   class="form-label">药物批准文号</label>
+            <input type="text"
+                   class="form-control"
+                   id="medicine_id"
+                   name="medicine_id"
+                   value="{% block m_id %}{% endblock %}">
+        </div>
+        <div class="mb-3">
+            <label for="purchase_num"
+                   class="form-label">采购数量</label>
+            <input type="text"
+                   class="form-control"
+                   id="purchase_num"
+                   name="purchase_num"
+                   value="{% block quantity %}{% endblock %}">
+        </div>
+        <div class="mb-3">
+            <label for="price"
+                   class="form-label">采购单价</label>
+            <input type="text"
+                   class="form-control"
+                   id="price"
+                   name="price"
+                   value="{% block price %}{% endblock %}">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+{% endblock %}

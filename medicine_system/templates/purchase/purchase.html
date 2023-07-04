@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block title %}
+    <title>采购管理</title>
+{% endblock %}
+{% block bg %}bg7.PNG{% endblock %}
+{% block table %}
+    <input class="form-control" id="myInput" type="text" placeholder="Search.." style="width:40%; margin:10px auto">
+    <table class="table" style="width: 700px; margin: 10px auto; color: navajowhite">
+        <thead>
+        <tr>
+            <th scope="col">采购单ID</th>
+            <th scope="col">采购时间</th>
+            <th scope="col">采购单名称</th>
+            <th scope="col">功能</th>
+        </tr>
+        </thead>
+        <tbody id="myTable">
+        {% for purchase in Purchases %}
+            <tr>
+                <td>{{ purchase.id }}</td>
+                <td>{{ purchase.date }}</td>
+                <td>{{ purchase.name }}</td>
+                <td>
+                    <a href="#" onclick="Detail({{ purchase.id }})">详细</a>{% if purchase.type != "退货" %}
+                    <a href="/purchase/delete?id={{ purchase.id }}" onclick="confirmDelete({{ purchase.id }})">退货</a>
+                    </td>{% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block add %}'/purchase/add'{% endblock %}
+{% block add_title %} 新增采购单 {% endblock %}
+
+
+{% block script %}
+    <script>
+        function Detail(id) {
+            // 发送 AJAX 请求获取订单详情
+            fetch(`/purchase/detail?id=${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    const purchase = data[0];
+                    const medicine = data[1];
+                    const supplier = data[2];
+                    const mp = data[3];
+                    if (purchase.error) {
+                        // 如果出错，弹出错误提示
+                        alert(purchase.error);
+                    } else {
+                        // 创建模态框的 HTML 结构
+                        const total_price = (parseFloat(mp.cost) * parseInt(purchase.quantity)).toFixed(2);
+                        const modalHtml = `
+                    <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="detailModalLabel">采购单详情</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <h5>${purchase.name}</h5>
+                            <p>创建时间: ${new Date(purchase.date).toLocaleDateString()}</p>
+                            <p>药物名称: ${medicine.name}</p>
+                            <p>采购数量: ${purchase.quantity}</p>
+                            <p>采购单价: ${purchase.price}</p>
+                            <p>供应商: ${supplier.name}</p>
+                            <p>采购总价: ${total_price}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                `;
+
+                        // 将模态框添加到页面中
+                        document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+                        // 获取模态框元素
+                        const modal = document.querySelector('#detailModal');
+
+                        // 监听模态框关闭事件，刷新页面
+                        modal.addEventListener('hidden.bs.modal', function () {
+                            location.reload();
+                        });
+
+                        // 显示模态框
+                        const modalInstance = new bootstrap.Modal(modal);
+                        modalInstance.show();
+                    }
+                })
+                .catch(error => {
+                    // 如果出错，弹出错误提示
+                    alert(error.message);
+                });
+        }
+
+
+        function confirmDelete(id) {
+            if (confirm("您确定要退货吗？")) {
+                window.location.href = "/purchase/delete?id=" + id;
+            }
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block body %}
+    <div id="bar" style="width:1000px; height:600px;"></div>
+    <script>
+        $(
+            function () {
+                const chart = echarts.init(document.getElementById('bar'), 'white', {renderer: 'canvas'});
+                $.ajax({
+                    type: "GET",
+                    url: "http://127.0.0.1:5000/barChart",
+                    dataType: 'json',
+                    success: function (result) {
+                        chart.setOption(result);
+                    }
+                });
+            }
+        )
+    </script>
+{% endblock %}
+
+{% block style %}
+    <style>
+        .navbar-custom {
+            background-image: url("/static/img/bg3.png");
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+    </style>
+{% endblock %}
+{% block add_button %}
+{% endblock %}

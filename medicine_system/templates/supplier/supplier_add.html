@@ -1,0 +1,43 @@
+{% extends 'function.html' %}
+{% block title %}新增供应商{% endblock %}
+
+{% block form %}
+    <form style="width:400px; margin: 100px auto" method="POST">
+        <div class="mb-3">
+            <label for="supplier_name"
+                   class="form-label">供应商名称</label>
+            <input type="text"
+                   class="form-control"
+                   id="supplier_name"
+                   name="supplier_name"
+                   value="{% block name %}{% endblock %}">
+        </div>
+        <div class="mb-3">
+            <label for="supplier_person"
+                   class="form-label">供应商联系人</label>
+            <input type="text" class="form-control"
+                   id="supplier_person"
+                   name="supplier_person"
+                   value="{% block person %}{% endblock %}">
+        </div>
+        <div class="mb-3">
+            <label for="supplier_phone"
+                   class="form-label">联系电话</label>
+            <input type="text"
+                   class="form-control"
+                   id="supplier_phone"
+                   name="supplier_phone"
+                   value="{% block phone %}{% endblock %}">
+        </div>
+        <div class="mb-3">
+            <label for="supplier_address"
+                   class="form-label">供应商地址</label>
+            <input type="text"
+                   class="form-control"
+                   id="supplier_address"
+                   name="supplier_address"
+                   value="{% block address %}{% endblock %}">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+{% endblock %}

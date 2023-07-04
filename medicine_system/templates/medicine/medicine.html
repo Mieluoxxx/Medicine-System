@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% block title %}
+    <title>药物管理</title>
+{% endblock %}
+{% block bg %}bg3.PNG{% endblock %}
+{% block table %}
+    <input class="form-control" id="myInput" type="text" placeholder="Search.." style="width:40%; margin:10px auto;">
+    <table class="table" style="width: 700px; margin: 10px auto; color: navajowhite">
+        <thead>
+        <tr>
+            <th scope="col">药物名称</th>
+            <th scope="col">药物售价</th>
+            <th scope="col">药物库存</th>
+            <th scope="col">批准文号</th>
+            <th scope="col">功能</th>
+        </tr>
+        </thead>
+        <tbody id="myTable">
+        {% for test in tests %}
+            <tr>
+                <td>{{ test.name }}</td>
+                <td>{{ test.price }}</td>
+                <td>{{ test.stock }}</td>
+                <td>{{ test.m_id }}</td>
+                <td><a href="#" onclick="Detail('{{ test.m_id[-9:] }}')">详细</a> <a
+                        href="/medicine/change?id={{ test.m_id[-9:] }}">修改</a> <a
+                        href="#" onclick="confirmDelete({{ test.m_id[-9:] }})">删除</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block add %}'/medicine/add'{% endblock %}
+{% block add_title %} 新增药物 {% endblock %}
+
+{% block script %}
+    <script>
+        function Detail(id) {
+            // 发送 AJAX 请求获取订单详情
+            fetch(`/medicine/detail?id=${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    const medicine = data[0];
+                    const supplier = data[1];
+                    if (medicine.error) {
+                        // 如果出错，弹出错误提示
+                        alert(medicine.error);
+                    } else {
+                        // 创建模态框的 HTML 结构
+                        const modalHtml = `
+                    <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="detailModalLabel">药物详情</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <h5>药物详情</h5>
+                            <p>药物名称: ${medicine.name}</p>
+                            <p>生产商: ${supplier.name}</p>
+                            <p>药物描述: ${medicine.description}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                `;
+
+                        // 将模态框添加到页面中
+                        document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+                        // 获取模态框元素
+                        const modal = document.querySelector('#detailModal');
+
+                        // 监听模态框关闭事件，刷新页面
+                        modal.addEventListener('hidden.bs.modal', function () {
+                            location.reload();
+                        });
+
+                        // 显示模态框
+                        const modalInstance = new bootstrap.Modal(modal);
+                        modalInstance.show();
+                    }
+                })
+                .catch(error => {
+                    // 如果出错，弹出错误提示
+                    alert(error.message);
+                });
+        }
+
+
+        function confirmDelete(id) {
+            if (confirm("您确定要删除该药物吗？")) {
+                window.location.href = "/medicine/delete?id=" + id;
+            }
+        }
+    </script>
+{% endblock %}

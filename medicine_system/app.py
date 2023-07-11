@@ -1,3 +1,5 @@
+import os
+import zipfile
 from models import db
 from config import app
 from route import bp
@@ -6,6 +8,14 @@ app.register_blueprint(bp)  # 设置路由
 db.init_app(app)
 with app.app_context():
     db.create_all()
+
+
+@app.cli.command("init-static")
+def init_static():
+    if not os.path.exists('static'):
+        # 解压static.zip文件
+        with zipfile.ZipFile('static.zip', 'r') as zip_ref:
+            zip_ref.extractall()
 
 
 @app.cli.command("init-db")

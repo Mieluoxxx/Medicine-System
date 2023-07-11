@@ -11,6 +11,8 @@ poetry install
 使用方式为
 ```bash
 poetry shell
-python medicine_system/app.py
+cd medicine_system
 # 注意修改config.py中的mysql配置
+flask init-static && flask init-db && flask init-sql && flask init-trigger
+python app.py
 ```
